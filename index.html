@@ -1,45 +1,89 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Chat App</title>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Global Chat</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <nav>
-        <div class="brand">Global Chat</div>
-        <button id="loginBtn">Login</button>
-    </nav>
-
-    <div class="chat-container">
-        <h2>Chat with everyone</h2>
-        <div id="chatBox" class="chat-box"></div>
-        <form id="chatForm">
-            <input type="text" id="messageInput" placeholder="Type your message..." required>
-            <button type="submit">Send</button>
-        </form>
+  <!-- NAVBAR -->
+  <nav>
+    <div class="brand">Global Chat</div>
+    <div class="nav-right">
+      <button id="loginBtn" onclick="openPopup('chooseLoginPopup')">Login</button>
+      <span id="userDisplay" class="hidden"></span>
     </div>
+  </nav>
 
-    <div id="loginPopup" class="popup">
-        <div class="popup-content">
-            <span class="close">&times;</span>
-            <h2>Login</h2>
-            <input type="text" id="guestName" placeholder="Guest Name">
-            <button id="guestLoginBtn">Login as Guest</button>
-            <hr>
-            <h3>Or</h3>
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Password">
-            <button id="emailLoginBtn">Login</button>
-            <button id="registerBtn">Register</button>
-        </div>
+  <!-- CHAT SECTION -->
+  <section class="chat-container">
+    <h1>Chat with everyone</h1>
+    <div id="chatBox" class="chat-box"></div>
+      <div id="chatForm" class="chat-form">
+        <input id="messageInput" type="text" placeholder="Ketik pesan kamu..." />
+        <button onclick="sendMessage()">Kirim</button>
+      </div>
+      <div id="chatMessages" class="chat-messages"></div>
     </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- POPUPS -->
+  <div class="popup hidden" id="chooseLoginPopup">
+    <div class="popup-content">
+      <h2>Pilih Metode Login</h2>
+      <button onclick="showPopup('loginPopup')">Login Akun</button>
+      <button onclick="showPopup('guestLoginPopup')">Login Guest</button>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+  </div>
+
+  <div class="popup hidden" id="loginPopup">
+    <div class="popup-content">
+      <h2>Login Akun</h2>
+      <input id="loginEmail" placeholder="Email" type="email" />
+      <input id="loginPassword" placeholder="Password" type="password" />
+      <button onclick="loginUser()">Login</button>
+      <p>Tidak punya akun? <a href="#" onclick="showPopup('registerPopup')">Daftar di sini</a></p>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+  </div>
+
+  <div class="popup hidden" id="registerPopup">
+    <div class="popup-content">
+      <h2>Register Akun</h2>
+      <input id="registerName" placeholder="Nama" />
+      <input id="registerEmail" placeholder="Email" type="email" />
+      <input id="registerPassword" placeholder="Password" type="password" />
+      <button onclick="registerUser()">Daftar</button>
+      <p>Sudah punya akun? <a href="#" onclick="showPopup('loginPopup')">Login di sini</a></p>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+  </div>
+
+  <div class="popup hidden" id="guestLoginPopup">
+    <div class="popup-content">
+      <h2>Login Guest</h2>
+      <input id="guestName" placeholder="Nama Guest" />
+      <button onclick="loginGuest()">Masuk</button>
+      <p>Belum punya Guest? <a href="#" onclick="showPopup('guestRegisterPopup')">Daftar Guest</a></p>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+  </div>
+
+  <div class="popup hidden" id="guestRegisterPopup">
+    <div class="popup-content">
+      <h2>Register Guest</h2>
+      <input id="newGuestName" placeholder="Nama Guest" />
+      <button onclick="registerGuest()">Daftar</button>
+      <p>Sudah punya Guest? <a href="#" onclick="showPopup('guestLoginPopup')">Login di sini</a></p>
+      <button onclick="closePopup()">Tutup</button>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="app.js"></script>
+  <script src="popup.js"></script>
 </body>
 </html>
